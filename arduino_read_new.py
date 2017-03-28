@@ -7,24 +7,20 @@ BAUD = 9600
 def print_data(ser):
     line = ser.readline()
     data = [float(val) for val in line.split()]
-    # Might be useful if we only want notifications when something is wrong
-    # if (data[0] > 5):
     print(data)
 
-# def spamCSV():
-#     with open('eggs.csv', 'wb') as csvfile:
-#     spamwriter = csv.writer(csvfile, delimiter=' ',
-#                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
-#     spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
-#     spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
+def testCSV():
+    csvfile = open('test_file.csv', 'ab')
+    writer = csv.writer(csvfile, delimiter=',')
+    data = ['1','2','3']
+    writer.writerow(data)
+    csvfile.close()
 
-# def writeToCSV(ser):
-#     line = ser.readline()
-#     data = [float(val) for val in line.split()]
-#     csvfile = open('sensor_readings.csv', 'ab')
-#         writer = csv.writer(csvfile, delimiter=',')
-#         writer.writerow([datetime.datetime.now(), data])
-#         csvfile.close()
+
+def writeToCSV(ser):
+    # Your code goes here!
+    pass
+    
 
 # main() function
 def main():
