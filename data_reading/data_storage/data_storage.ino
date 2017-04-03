@@ -17,6 +17,9 @@ unsigned char ten_bits_to_char(int bits) {
   int new_bits = map(bits, 0, 1024, 0, 256);
   return (unsigned char)new_bits;
 }
+unsigned char bit_to_char(int bitt) {
+  return (unsigned char)bitt;
+}
 
 void setup()
 {
@@ -29,7 +32,7 @@ void loop()
 {
   soil = ten_bits_to_char(analogRead(SOIL_SENSOR_INPUT_PIN));
   temp = ten_bits_to_char(analogRead(TEMPERATURE_INPUT_PIN));
-  light = ten_bits_to_char(analogRead(LIGHT_INPUT_PIN));
+  light = bit_to_char(digitalRead(LIGHT_INPUT_PIN));
   EEPROM.write(i, soil);
   EEPROM.write(i+1, temp);
   EEPROM.write(i+2, light);
