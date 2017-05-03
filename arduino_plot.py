@@ -12,6 +12,8 @@ from collections import deque
 
 import matplotlib.pyplot as plt 
 import matplotlib.animation as animation
+import matplotlib.patches as mpatches
+
 import random
 
 '''
@@ -40,8 +42,12 @@ class AnalogPlot:
         if len(buf) < self.maxLen:
             buf.append(val)
         else:
+            '''
             buf[self.i] = val
             self.i = (self.i+1)%self.maxLen
+            '''
+            buf.popleft()
+            buf.append(val)
 
     # add data
     def add(self, data):
@@ -93,7 +99,13 @@ def main():
     plt.xlabel("time")
     plt.ylabel("reading")
     plt.title("arduino sensors")
-    axes = [ax.plot([], []) for i in range(args.n)]
+    light_patch = mpatches.Patch(color='r', label='light')
+    temp_patch = mpatches.Patch(color='b', label='temp')
+    soil_patch = mpatches.Patch(color='g', label='soil')
+    plt.legend(handles=[light_patch, temp_patch, soil_patch], loc="lower left")
+
+    colors = ["r","b","g"]
+    axes = [ax.plot([], [], colors[i]) for i in range(args.n)]
     anim = animation.FuncAnimation(fig, analogPlot.update, 
                                  fargs=axes, 
                                  interval=50)
