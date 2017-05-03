@@ -33,14 +33,15 @@ class AnalogPlot:
         self.ser = serial.Serial(strPort, baud)
         self.data_deques = [deque([0.0]*maxLen) for i in range(n)] 
         self.maxLen = maxLen
+        self.i = 0
 
     # add to buffer
     def addToBuf(self, buf, val):
         if len(buf) < self.maxLen:
             buf.append(val)
         else:
-            buf.pop()
-            buf.appendleft(val)
+            buf[self.i] = val
+            self.i = (self.i+1)%self.maxLen
 
     # add data
     def add(self, data):
@@ -89,6 +90,9 @@ def main():
     # set up animation
     fig = plt.figure()
     ax = plt.axes(xlim=(0, 100), ylim=(0, 1023))
+    plt.xlabel("time")
+    plt.ylabel("reading")
+    plt.title("arduino sensors")
     axes = [ax.plot([], []) for i in range(args.n)]
     anim = animation.FuncAnimation(fig, analogPlot.update, 
                                  fargs=axes, 
