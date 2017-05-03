@@ -12,6 +12,19 @@ from collections import deque
 
 import matplotlib.pyplot as plt 
 import matplotlib.animation as animation
+import random
+
+'''
+class Object(object):
+    pass
+serial = Object()
+class Serial(object):
+    def __init__(self, port, baud):
+        pass
+    def readline(self):
+        return " ".join([str(random.random()*1000) for i in range(3)])
+serial.Serial = Serial        
+'''
 
 # plot class
 class AnalogPlot:
@@ -35,14 +48,15 @@ class AnalogPlot:
             self.addToBuf(self.data_deques[i], data[i])
 
     # update plot
-    def update(self, frameNum, axes):
+    def update(self, frameNum, *axes):
+        print axes
         try:
             line = self.ser.readline()
             data = [float(val) for val in line.split()]
             print(data)
             self.add(data)
             for i in range(len(axes)):
-                axes[i].set_data(range(self.maxLen), self.data_deques[i])
+                axes[i][0].set_data(range(self.maxLen), self.data_deques[i])
         except KeyboardInterrupt:
             print('exiting')
 
