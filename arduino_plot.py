@@ -16,7 +16,7 @@ import matplotlib.patches as mpatches
 
 import random
 
-'''
+
 class Object(object):
     pass
 serial = Object()
@@ -26,7 +26,6 @@ class Serial(object):
     def readline(self):
         return " ".join([str(random.random()*1000) for i in range(3)])
 serial.Serial = Serial        
-'''
 
 # plot class
 class AnalogPlot:

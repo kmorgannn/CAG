@@ -19,7 +19,12 @@ def testCSV():
 
 def writeToCSV(ser):
     # Your code goes here!
-    pass
+    csvfile = open('test_file.csv', 'ab')
+    line = ser.readline()
+    data = [float(val) for val in line.split()]
+    writer = csv.writer(csvfile, delimiter=',')
+    writer.writerow(data)
+    csvfile.close()
     
 
 # main() function
