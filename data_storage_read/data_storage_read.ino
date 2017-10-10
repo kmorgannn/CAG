@@ -1,3 +1,6 @@
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+
 #include <EEPROM.h>
 #include "DHT.h"
 
@@ -6,7 +9,7 @@
 
 int BUTTON = 12;
 int SOIL_SENSOR_INPUT_PIN = 0;
-int LIGHT_INPUT_PIN = 1;
+int LIGHT_INPUT_PIN = 8;
 int BAUD = 9600;
 int DELAY = 100; //1/10 second
 long WRITE_DELAY = 1000L*30L*60L; //30 minutes
@@ -15,10 +18,14 @@ int TEN_BITS = 1023;
 int EEsize = 1024; // size in bytes of your boards 
 
 DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x3F for a 20 chars and 4 line display
+
+
 
 unsigned char soil;
 unsigned char temp;
 unsigned char light;
+unsigned char lcd_light;
 int i = 0;
 int ms=0;
 int button_time=BUTTON_BOUNCE;
@@ -39,6 +46,8 @@ void setup()
   dht.begin();
   pinMode(LIGHT_INPUT_PIN, INPUT);
   pinMode(BUTTON, INPUT);
+  lcd.init();                      // initialize the lcd   
+  lcd.backlight();
 }
 
 void loop()
@@ -62,11 +71,18 @@ void loop()
   if (!(ms%WRITE_DELAY)) {
       soil = analogRead(SOIL_SENSOR_INPUT_PIN);
       temp = dht.readTemperature(true);
-      light = ten_bits_to_char(analogRead(LIGHT_INPUT_PIN));
+      light = digitalRead(LIGHT_INPUT_PIN);
+      lcd_light = analogRead(LIGHT_INPUT_PIN);
       EEPROM.write(i, soil);
       EEPROM.write(i+1, temp);
       EEPROM.write(i+2, light);
       i = (i+3)%((EEsize/3)*3);
+      lcd.setCursor(0,0);
+      lcd.print("Soil: " + String((int)soil));  
+      lcd.setCursor(0,1);
+      lcd.print("Light: " + String((int)light));
+      lcd.setCursor(0,2);
+      lcd.print("Temp: " + String((int)temp) + " *F");
   }
   button_time += DELAY;
   delay(DELAY); 
