@@ -1,0 +1,6 @@
+lcd.setCursor(0,0);
+lcd.print("Soil: " + String((int)soil));  
+lcd.setCursor(0,1);
+lcd.print("Light: " + String((int)light));
+lcd.setCursor(0,2);
+lcd.print("Temp: " + String((int)temp) + " *F");

@@ -77,12 +77,7 @@ void loop()
       EEPROM.write(i+1, temp);
       EEPROM.write(i+2, light);
       i = (i+3)%((EEsize/3)*3);
-      lcd.setCursor(0,0);
-      lcd.print("Soil: " + String((int)soil));  
-      lcd.setCursor(0,1);
-      lcd.print("Light: " + String((int)light));
-      lcd.setCursor(0,2);
-      lcd.print("Temp: " + String((int)temp) + " *F");
+      // Your code goes here!
   }
   button_time += DELAY;
   delay(DELAY); 
